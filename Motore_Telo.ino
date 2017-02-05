@@ -37,9 +37,6 @@ long lastencoderValue = 0;
 long lastMSB = 0;
 long lastLSB = 0;
 
-int addr = 0; //indirizzo nella EEPROM
-			  //--------------------------------------------------------------------
-
 void setup() {
 	// put your setup code here, to run once:
 	Serial.begin(9600);
@@ -70,20 +67,24 @@ void loop() {
 	FcAlto = digitalRead(14);
 
 	if (flagFC == false) {
-		//if(digitalRead(memorizza)==HIGH){}
-		if (FcAlto == LOW) {
-
-			analogWrite(enable, 0);
-			flagFC = true;
-			encoderValue = 0;
+		if (digitalRead(memorizza) != HIGH) {
+			writeEEPROM(encoderValue);
 		}
 		else {
+			if (FcAlto == LOW) {
 
-			digitalWrite(IN1, HIGH);
-			digitalWrite(IN2, LOW);
-			analogWrite(enable, 75);
-			FcAlto = digitalRead(14);
+				analogWrite(enable, 0);
+				flagFC = true;
+				encoderValue = 0;
+			}
+			else {
 
+				digitalWrite(IN1, HIGH);
+				digitalWrite(IN2, LOW);
+				analogWrite(enable, 75);
+				FcAlto = digitalRead(14);
+
+			}
 		}
 	}
 
