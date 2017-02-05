@@ -9,7 +9,7 @@ int IN2 = 11;               //output direzione motore
 int comandoGiu;
 int comandoSu;
 bool flagFC = false;        //indica se il finecorsa Ë stato utilizzato
-int posizione = 1125;
+int posizione = 1125;		//posizione in cui si fermer‡ il telo in discesa(temporaneo)
 int ris;                    //risultato per il calcolo delle velocit√† di salita e discesa
 bool isDown = false;
 
@@ -68,9 +68,12 @@ void loop() {
 
 	if (flagFC == false) {
 		if (digitalRead(memorizza) != HIGH) {
+
 			writeEEPROM(encoderValue);
+			controlloManuale();
 		}
 		else {
+
 			if (FcAlto == LOW) {
 
 				analogWrite(enable, 0);
@@ -85,10 +88,10 @@ void loop() {
 				FcAlto = digitalRead(14);
 
 			}
+
+			controlloAutomatico();
 		}
 	}
-
-	controlloAutomatico();
 }
 
 void controlloAutomatico() {
